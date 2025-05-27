@@ -1,0 +1,42 @@
+name: Build Windows Executable for Kaplat
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install fastapi uvicorn pyinstaller
+
+      - name: Build .exe with PyInstaller
+        run: |
+          pyinstaller --onefile main.py
+
+      - name: Create run.bat
+        run: echo main.exe > run.bat
+
+      - name: Zip the files
+        run: |
+          mkdir zip_output
+          copy run.bat zip_output\
+          copy dist\main.exe zip_output\
+          powershell Compress-Archive -Path zip_output\* -DestinationPath kaplat_submission.zip
+
+      - name: Upload built ZIP
+        uses: actions/upload-artifact@v3
+        with:
+          name: kaplat_submission
+          path: kaplat_submission.zip
