@@ -1,20 +1,26 @@
 from models.schames import OperationEnum
 from math import factorial
 
-def validate_args(operation: OperationEnum, args: list):
+def normalize_operation(operation: str) -> OperationEnum:
+    try:
+        return OperationEnum(operation.lower()).value
+    except ValueError:
+        raise ValueError(f"Error: unknown operation: {operation}")
+def validate_args(operation: str, args: list) -> OperationEnum:
+    operation = normalize_operation(operation)
     arity = 1 if operation in {OperationEnum.abs, OperationEnum.fact} else 2
 
     if len(args) < arity:
-        raise ValueError(f"Error: Not enough arguments to perform the operation {operation.value}")
+        raise ValueError(f"Error: Not enough arguments to perform the operation {operation}")
     if len(args) > arity:
-        raise ValueError(f"Error: Too many arguments to perform the operation {operation.value}")
+        raise ValueError(f"Error: Too many arguments to perform the operation {operation}")
+    return operation
 
-def calculate(operation: OperationEnum, args: list) -> int:
-    validate_args(operation, args)
-
+def calculate(operation: str, args: list) -> int:
+    operation = validate_args(operation, args)
+    print(operation)
     x = args[0]
     y = args[1] if len(args) > 1 else None
-
     try:
         match operation:
             case OperationEnum.plus:

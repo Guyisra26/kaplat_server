@@ -3,13 +3,13 @@ from typing import List,Union,Optional
 from enum import Enum
 
 class OperationEnum(str,Enum):
-    plus = "Plus"
-    minus = "Minus"
-    times = "Times"
-    divide = "Divide"
-    pow = "Pow"
-    abs = "Abs"
-    fact = "Fact"
+    plus = "plus"
+    minus = "minus"
+    times = "times"
+    divide = "divide"
+    pow = "pow"
+    abs = "abs"
+    fact = "fact"
 
 class CalculationRequest(BaseModel):
     arguments: List[int]

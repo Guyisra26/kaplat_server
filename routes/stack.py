@@ -5,6 +5,8 @@ from handlers.history_handler import history
 from models.schames import FlavorEnum
 from fastapi.responses import JSONResponse
 
+from operations import calculate
+
 router = APIRouter(prefix="/calculator/stack", tags=["stack"])
 
 @router.get("/size" ,response_model=Result)
@@ -23,7 +25,7 @@ def push_arguments(arguments: StackArguments):
 def operate(operation: OperationEnum = Query(...)):
     try:
         arguments = stack.pop_operation(operation)
-        result = stack.operate(operation)
+        result = calculate(operation, arguments)
         history.log(FlavorEnum.stack, operation.value, arguments, result)
         return JSONResponse(status_code=200, content=result)
     except ValueError as e:
@@ -32,7 +34,7 @@ def operate(operation: OperationEnum = Query(...)):
 @router.delete("/arguments")
 def remove_arguments(count: int = Query(...)):
     try:
-        size_after_delete = stack.remove_arguments(count)
+        size_after_delete = stack.remove(count)
         return JSONResponse(status_code=200, content=size_after_delete)
     except ValueError as e:
         raise HTTPException(status_code=409, detail=str(e))
