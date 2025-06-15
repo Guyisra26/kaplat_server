@@ -18,7 +18,6 @@ def validate_args(operation: str, args: list) -> OperationEnum:
 
 def calculate(operation: str, args: list) -> int:
     operation = validate_args(operation, args)
-    print(operation)
     x = args[0]
     y = args[1] if len(args) > 1 else None
     try:

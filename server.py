@@ -2,15 +2,18 @@ import uvicorn
 import sys
 import signal
 import logging
+import os
 import asyncio
 from main import app
-
+# Ensure logs folder exists
+os.makedirs("logs", exist_ok=True)
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.StreamHandler(sys.stdout)
+        logging.StreamHandler(sys.stdout),
+        logging.FileHandler("logs/server.log")
     ]
 )
 
@@ -30,7 +33,7 @@ def main():
     
     # Default configuration
     host = "127.0.0.1"
-    port = 8
+    port = 8496
     
     logging.info(f"Starting server on {host}:{port}")
     
