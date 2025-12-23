@@ -1,11 +1,17 @@
+# Python virtual env
 .venv/
 venv/
-__pycache__/
-*.pyc
-.env
-.DS_Store
 
-build/
+# Build artifacts
 dist/
+build/
 *.spec
 
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE
+.idea/
