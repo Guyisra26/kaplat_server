@@ -1,0 +1,2 @@
+22-06-2025 21:53:38.461 INFO: Incoming request | #1 | resource: /docs | HTTP Verb GET | request #1
+22-06-2025 21:53:38.696 INFO: Incoming request | #2 | resource: /openapi.json | HTTP Verb GET | request #2

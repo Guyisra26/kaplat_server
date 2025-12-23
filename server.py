@@ -32,7 +32,7 @@ def main():
     signal.signal(signal.SIGTERM, signal_handler)
     
     # Default configuration
-    host = "127.0.0.1"
+    host = "0.0.0.0"
     port = 8496
     
     logging.info(f"Starting server on {host}:{port}")
@@ -40,7 +40,8 @@ def main():
     try:
         # Configure uvicorn logging
         log_config = uvicorn.config.LOGGING_CONFIG
-        log_config["formatters"]["default"]["fmt"] = "%(asctime)s - %(levelname)s - %(message)s"
+        log_config["formatters"]["default"]["fmt"] = "%(asctime)s.%(msecs)03d - %(levelname)s - %(message)s"
+        log_config["formatters"]["default"]["datefmt"] = "%d-%m-%Y %H:%M:%S"
         log_config["handlers"]["default"]["stream"] = sys.stdout
 
         config = uvicorn.Config(
